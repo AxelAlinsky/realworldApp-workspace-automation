@@ -1,0 +1,131 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        // Test Case: 1 --------------->>>>
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "[loginTest]: Validate Successful Login",
+            "runtimeArgs": [
+                "-r",
+                "ts-node/register"
+            ],
+            "args": [
+                "${workspaceFolder}/node_modules/mocha/bin/_mocha",
+                "--timeout", "999999",
+                "--colors",
+                "${workspaceFolder}/test/validLoginTest.ts" // Point to the TypeScript test file
+            ],
+            "cwd": "${workspaceRoot}",
+            "env": {
+                "NODE_ENV": "test",
+                "PERFHUB_ENABLED": "false"
+            },
+            "sourceMaps": true,
+            "skipFiles": ["<node_internals>/**"],
+            "console": "internalConsole",
+            "internalConsoleOptions": "openOnSessionStart"
+        },
+        // Test Case: 2 --------------->>>>
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "[invalidLoginTest]: Validate Unsuccessful Login",
+            "runtimeArgs": [
+                "-r",
+                "ts-node/register"
+            ],
+            "args": [
+                "${workspaceFolder}/node_modules/mocha/bin/_mocha",
+                "--timeout", "999999",
+                "--colors",
+                "${workspaceFolder}/test/invalidLoginTest.ts" 
+            ],
+            "cwd": "${workspaceRoot}",
+            "env": {
+                "NODE_ENV": "test",
+                "PERFHUB_ENABLED": "false"
+            },
+            "sourceMaps": true,
+            "skipFiles": ["<node_internals>/**"],
+            "console": "internalConsole",
+            "internalConsoleOptions": "openOnSessionStart"
+        },
+        // Test Case: 3 --------------->>>>
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "[restrictedAccessTest]: Validate Direct Access to Inventory Page without Login",
+            "runtimeArgs": [
+                "-r",
+                "ts-node/register"
+            ],
+            "args": [
+                "${workspaceFolder}/node_modules/mocha/bin/_mocha",
+                "--timeout", "999999",
+                "--colors",
+                "${workspaceFolder}/test/restrictedAccessTest.ts" 
+            ],
+            "cwd": "${workspaceRoot}",
+            "env": {
+                "NODE_ENV": "test",
+                "PERFHUB_ENABLED": "false"
+            },
+            "sourceMaps": true,
+            "skipFiles": ["<node_internals>/**"],
+            "console": "internalConsole",
+            "internalConsoleOptions": "openOnSessionStart"
+        },
+        // Test Case: 4 --------------->>>>
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "[restrictedAccessTest]: Validate End-to-End Shopping Process for a Specific Product",
+            "runtimeArgs": [
+                "-r",
+                "ts-node/register"
+            ],
+            "args": [
+                "${workspaceFolder}/node_modules/mocha/bin/_mocha",
+                "--timeout", "999999",
+                "--colors",
+                "${workspaceFolder}/test/shoppingExp.ts" 
+            ],
+            "cwd": "${workspaceRoot}",
+            "env": {
+                "NODE_ENV": "test",
+                "PERFHUB_ENABLED": "false"
+            },
+            "sourceMaps": true,
+            "skipFiles": ["<node_internals>/**"],
+            "console": "internalConsole",
+            "internalConsoleOptions": "openOnSessionStart",
+        },
+        // Test Case: Regression --------------->>>>
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "[regression]: Regression Test",
+            "runtimeArgs": [
+                "-r",
+                "ts-node/register"
+            ],
+            "args": [
+                "${workspaceFolder}/node_modules/mocha/bin/_mocha",
+                "--timeout", "999999",
+                "--colors",
+                "${workspaceFolder}/test/regression.ts" 
+            ],
+            "cwd": "${workspaceRoot}",
+            "env": {
+                "NODE_ENV": "test",
+                "PERFHUB_ENABLED": "false"
+            },
+            "sourceMaps": true,
+            "skipFiles": ["<node_internals>/**"],
+            "console": "internalConsole",
+            "internalConsoleOptions": "openOnSessionStart"
+        },
+        
+    ]
+}

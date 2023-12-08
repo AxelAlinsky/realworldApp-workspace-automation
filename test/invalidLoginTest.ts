@@ -9,8 +9,8 @@ import { pageUrl, UserCredentials } from '../src/components/data/data';
 let compMain = new Main();
 let objApp: App;
 
-export function validLoginTest() {
-    describe('Test Case: Validate Successful Login', async function () {
+export function invalidLoginTest() {
+    describe('Test Case: Validate Invalid Login Attempt', async function () {
         let driver: WebDriver;
     
         before(async function () {
@@ -31,18 +31,18 @@ export function validLoginTest() {
         });
     
         it('Step 2: Input in the application with valid username', async function () {
-            await objApp.insertText(By.css(compMain.userNameInput), UserCredentials.standardUser.username);
+            await objApp.insertText(By.css(compMain.userNameInput), UserCredentials.invalidUser.username);
         });
     
         it('Step 3: Input in the applicatin with valid password', async function () {        
-            await objApp.insertText(By.css(compMain.userPassInput), UserCredentials.standardUser.password);
+            await objApp.insertText(By.css(compMain.userPassInput), UserCredentials.invalidUser.password);
         });
     
         it('Step 4: Click on the login button', async function () {
             await objApp.click(By.css(compMain.loginButton));
 
-            await objApp.verifyUrl(pageUrl.realworldDhashboard); 
+            await objApp.verifyUrl(pageUrl.realworld); 
         });
     });    
 }
-// validLoginTest();
+// invalidLoginTest();

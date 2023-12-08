@@ -1,13 +1,18 @@
 export enum pageUrl {
     realworld = 'https://realworld-app-nine.vercel.app/',
-    realworldDhashboard = "https://realworld-app-nine.vercel.app/dashboard"
+    realworldDhashboard = "https://realworld-app-nine.vercel.app/dashboard",
+    realWrodlRegister = "https://realworld-app-nine.vercel.app/register",
 }
 
 export const UserCredentials = {
     standardUser: {
-        username: '565uyytjhgd',
-        password: 'ty45w6htyjdtyst',
+        username: 'test',
+        password: 'test',
     },
+    invalidUser: {
+        username: 'invalid',
+        password: 'invalid',
+    }
 };
 
 export const ErrorMsg = {

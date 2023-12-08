@@ -5,8 +5,8 @@ export enum pageUrl {
 
 export const UserCredentials = {
     standardUser: {
-        username: 'test',
-        password: 'test',
+        username: '565uyytjhgd',
+        password: 'ty45w6htyjdtyst',
     },
 };
 

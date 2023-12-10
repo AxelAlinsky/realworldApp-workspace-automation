@@ -33,10 +33,32 @@ export class App {
         return driver;
     }
 
+
+    async verifyErrorMsg(expectedMsg: string, locator: By) {
+        const timeout = 5000;
+        try {   
+            await this.driver.wait(async () => {
+                const actualMsg = await this.driver.findElement(locator).getText();
+                return actualMsg === expectedMsg;
+            }, timeout, `Expected error message '${expectedMsg}', but was not found within the given timeout.`);
+
+            const actualMsg = await this.driver.findElement(locator).getText();
+            assert.strictEqual(actualMsg, expectedMsg, `Expected error message '${expectedMsg}', but found '${actualMsg}'`);
+        } catch (error) {
+            console.error('Error in verifyErrorMsg:', error);
+            throw error;
+        }
+    }
+
     // ---URL--- ------------->>>
     async verifyUrl(expectedUrl: string) {
+        const timeout = 5000;
         try {
-            // Retrieve the page url and assert
+            await this.driver.wait(async () => {
+                const actualUrl = await this.driver.getCurrentUrl();
+                return actualUrl === expectedUrl;
+            }, timeout, `Expected url '${expectedUrl}', but was not found within the given timeout.`);
+
             const actualUrl = await this.driver.getCurrentUrl();
             assert.strictEqual(actualUrl, expectedUrl, `Expected url '${expectedUrl}', but found '${actualUrl}'`);
         } catch (error) {
@@ -48,7 +70,6 @@ export class App {
     // ---INTERACTION--- ------------->>>
     async insertText(locator: By, text: string) {
         try {
-            // Wait for the element to be located and interactable
             const element = await this.driver.wait(until.elementLocated(locator), 5000);
 
             // Clear the input

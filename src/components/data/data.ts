@@ -16,5 +16,6 @@ export const UserCredentials = {
 };
 
 export const ErrorMsg = {
-    invalidLogin: `Please enter both username and password`,
+    noCredentialInput: `Please enter both username and password`,
+
 };

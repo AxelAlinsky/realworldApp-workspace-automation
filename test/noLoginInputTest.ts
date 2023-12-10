@@ -10,7 +10,7 @@ let compMain = new Main();
 let objApp: App;
 
 export function noLoginInputTest() {
-    describe('Test Case: Validate Successful Login', async function () {
+    describe('Test Case: Validate No Input Test', async function () {
         let driver: WebDriver;
     
         before(async function () {

@@ -9,26 +9,31 @@
     "clean": "rimraf ./build ./package.zip",
     "test": "_mocha ./build/test/regression.js --timeout=999999 --exit",
     "regression": "_mocha ./build/test/regression.js --timeout=999999 --exit",
-    "validLoginTest": "_mocha ./build/test/validLoginTest.js --timeout=999999 --exit"
+    "validLoginTest": "_mocha ./build/test/validLoginTest.js --timeout=999999 --exit",
+    "invalidLoginTest": "_mocha ./build/test/invalidLoginTest.js --timeout=999999 --exit"
   },
   "keywords": [],
   "author": "Apichai Tochonnabod",
   "license": "ISC",
   "dependencies": {
+    "@types/faker": "^6.6.9",
     "chai-as-promised": "^7.1.1",
+    "chance": "^1.1.11",
     "chromedriver": "latest",
+    "faker": "^6.6.6",
     "selenium-webdriver": "^4.15.0",
     "typescript": "^5.3.2"
   },
   "devDependencies": {
     "@types/chai": "^4.3.11",
+    "@types/chance": "^1.1.6",
     "@types/mocha": "^10.0.6",
     "@types/puppeteer": "^7.0.4",
     "@types/selenium-webdriver": "^4.1.20",
     "chai": "^4.3.10",
-    "mocha": "^10.2.0",
-    "ts-node": "^10.9.1",
     "copyfiles": "^2.1.0",
-    "rimraf": "^2.6.2"
+    "mocha": "^10.2.0",
+    "rimraf": "^2.6.2",
+    "ts-node": "^10.9.1"
   }
 }

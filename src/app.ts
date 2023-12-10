@@ -15,6 +15,7 @@ export class App {
     constructor(driver: WebDriver) {
         this.driver = driver;
         this.compMain = new Main(); // Initialize the Main instance
+        this.switchToTab = this.switchToTab.bind(this);
     }
 
     // Static method to initialize the WebDriver with headless configuration
@@ -35,73 +36,123 @@ export class App {
 
 
     async verifyErrorMsg(expectedMsg: string, locator: By) {
-        const timeout = 5000;
-        try {   
-            await this.driver.wait(async () => {
-                const actualMsg = await this.driver.findElement(locator).getText();
-                return actualMsg === expectedMsg;
-            }, timeout, `Expected error message '${expectedMsg}', but was not found within the given timeout.`);
-
-            const actualMsg = await this.driver.findElement(locator).getText();
-            assert.strictEqual(actualMsg, expectedMsg, `Expected error message '${expectedMsg}', but found '${actualMsg}'`);
+        const TIMEOUT = 5000; // Timeout in milliseconds
+    
+        try {
+            // Wait for the element to be present in the DOM
+            const element = await this.driver.wait(until.elementLocated(locator), TIMEOUT, `Element located by ${locator} not found within timeout.`);
+    
+            // Wait for the element to be visible
+            await this.driver.wait(until.elementIsVisible(element), TIMEOUT, `Element located by ${locator} is not visible within timeout.`);
+    
+            // Get the text of the element and compare it to the expected message
+            const actualMsg = await element.getText();
+            if (actualMsg === expectedMsg) {
+                console.log(`Verified error message: '${expectedMsg}'`);
+            } else {
+                throw new Error(`Expected error message '${expectedMsg}', but found '${actualMsg}'`);
+            }
         } catch (error) {
-            console.error('Error in verifyErrorMsg:', error);
+            console.error(`Error verifying error message '${expectedMsg}':`, error);
+            throw error;
+        }
+    }   
+
+    async switchToTab(tabIndex: number) {
+        try {
+            const handles = await this.driver.getAllWindowHandles();
+            if (handles.length <= tabIndex) {
+                throw new Error(`Expected at least ${tabIndex + 1} tabs, but found less.`);
+            }
+            await this.driver.switchTo().window(handles[tabIndex]);
+        } catch (error) {
+            console.error(`Error while switching to tab ${tabIndex}:`, error);
             throw error;
         }
     }
+    
 
     // ---URL--- ------------->>>
     async verifyUrl(expectedUrl: string) {
-        const timeout = 5000;
+        const TIMEOUT = 5000; // Timeout in milliseconds
+    
         try {
+            // Wait for the URL to be the expected URL
             await this.driver.wait(async () => {
                 const actualUrl = await this.driver.getCurrentUrl();
                 return actualUrl === expectedUrl;
-            }, timeout, `Expected url '${expectedUrl}', but was not found within the given timeout.`);
-
+            }, TIMEOUT, `Expected URL '${expectedUrl}' was not reached within timeout.`);
+    
+            // Get the current URL for assertion
             const actualUrl = await this.driver.getCurrentUrl();
-            assert.strictEqual(actualUrl, expectedUrl, `Expected url '${expectedUrl}', but found '${actualUrl}'`);
+            assert.strictEqual(actualUrl, expectedUrl, `Expected URL '${expectedUrl}', but found '${actualUrl}'`);
+    
+            console.log(`Verified URL: '${expectedUrl}'`);
         } catch (error) {
-            console.error('Error in verifyUrl:', error);
+            console.error(`Error verifying URL '${expectedUrl}':`, error);
             throw error;
         }
     }
+    
+    
 
     // ---INTERACTION--- ------------->>>
     async insertText(locator: By, text: string) {
+        const TIMEOUT = 5000; // Timeout in milliseconds
+    
         try {
-            const element = await this.driver.wait(until.elementLocated(locator), 5000);
-
+            // Wait for the element to be located and visible
+            const element = await this.driver.wait(until.elementLocated(locator), TIMEOUT, `Element located by ${locator} not found within timeout.`);
+            await this.driver.wait(until.elementIsVisible(element), TIMEOUT, `Element located by ${locator} is not visible within timeout.`);
+    
             // Clear the input
             await element.clear();
-
+    
             // Send the text
             await element.sendKeys(text);
-
-            // Optionally, wait for the value attribute to reflect the new text
-            await this.driver.wait(() => element.getAttribute('value').then(value => value === text), 5000);
-
-            // Assert that the input's value is equal to the text
-            const loginInput = await element.getAttribute('value');
-            assert.equal(loginInput, text, `The input should be '${text}' but found '${loginInput}'`);
+    
+            // Optionally, wait for the value attribute to reflect the new text, if asynchronous behavior is expected
+            await this.driver.wait(() => element.getAttribute('value').then(value => value === text), TIMEOUT, `Input value did not match '${text}' within timeout.`);
+    
+            console.log(`Text '${text}' inserted into element located by ${locator}`);
         } catch (error) {
-            console.error('Error in insertText:', error);
+            console.error(`Error inserting text into element located by ${locator}:`, error);
             throw error;
         }
     }
+    
 
     async click(locator: By) {
+        const TIMEOUT = 5000; // Timeout in milliseconds
+        const RETRY_COUNT = 3; // Number of times to retry the click
+    
         try {
-            // Wait for the element to be located and clickable
-            const element = await this.driver.wait(until.elementLocated(locator), 5000);
-            await this.driver.wait(until.elementIsEnabled(element), 5000);
-
-            // Perform the click action
-            await element.click();
+            // Wait for the element to be located
+            const element = await this.driver.wait(until.elementLocated(locator), TIMEOUT, `Element located by ${locator} not found`);
+    
+            // Wait for the element to be visible and enabled
+            await this.driver.wait(until.elementIsVisible(element), TIMEOUT, `Element located by ${locator} not visible`);
+            await this.driver.wait(until.elementIsEnabled(element), TIMEOUT, `Element located by ${locator} not enabled`);
+    
+            // Scrolling to the element
+            await this.driver.executeScript("arguments[0].scrollIntoView(true);", element);
+    
+            // Perform the click action with retry
+            for (let attempt = 0; attempt < RETRY_COUNT; attempt++) {
+                try {
+                    await element.click();
+                    return; // Exit if the click is successful
+                } catch (clickError) {
+                    if (attempt === RETRY_COUNT - 1) {
+                        throw clickError; // Rethrow error on the final attempt
+                    }
+                }
+            }
         } catch (error) {
-            console.error('Error in click:', error);
+            console.error(`Error clicking on element located by ${locator}:`, error);
             throw error;
         }
     }
+    
 
 }

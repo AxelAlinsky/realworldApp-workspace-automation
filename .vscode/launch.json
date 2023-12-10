@@ -30,7 +30,7 @@
         {
             "type": "node",
             "request": "launch",
-            "name": "[invalidLoginTest]: Validate Invalid Login Attempt",
+            "name": "[invalidLoginTest]: Invalid Login Attempt",
             "runtimeArgs": [
                 "-r",
                 "ts-node/register"
@@ -51,6 +51,82 @@
             "console": "internalConsole",
             "internalConsoleOptions": "openOnSessionStart"
         },
+        // Test Case: 3 --------------->>>>
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "[sessionPersistenceTest]: Validate Session Persistence After Reopening Browser Tab",
+            "runtimeArgs": [
+                "-r",
+                "ts-node/register"
+            ],
+            "args": [
+                "${workspaceFolder}/node_modules/mocha/bin/_mocha",
+                "--timeout", "999999",
+                "--colors",
+                "${workspaceFolder}/test/sessionPersistenceTest.ts" // Point to the TypeScript test file
+            ],
+            "cwd": "${workspaceRoot}",
+            "env": {
+                "NODE_ENV": "test",
+                "PERFHUB_ENABLED": "false"
+            },
+            "sourceMaps": true,
+            "skipFiles": ["<node_internals>/**"],
+            "console": "internalConsole",
+            "internalConsoleOptions": "openOnSessionStart"
+        },
+        // Test Case: 4 --------------->>>>
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "[multiTabLogoutTest]: Validate Logout Across Multiple Tabs",
+            "runtimeArgs": [
+                "-r",
+                "ts-node/register"
+            ],
+            "args": [
+                "${workspaceFolder}/node_modules/mocha/bin/_mocha",
+                "--timeout", "999999",
+                "--colors",
+                "${workspaceFolder}/test/multiTabLogoutTest.ts" // Point to the TypeScript test file
+            ],
+            "cwd": "${workspaceRoot}",
+            "env": {
+                "NODE_ENV": "test",
+                "PERFHUB_ENABLED": "false"
+            },
+            "sourceMaps": true,
+            "skipFiles": ["<node_internals>/**"],
+            "console": "internalConsole",
+            "internalConsoleOptions": "openOnSessionStart"
+        },
+        // Test Case: 5 --------------->>>>
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "[newUserRegistrationTest]: Validate New User Registration and Automatic Login",
+            "runtimeArgs": [
+                "-r",
+                "ts-node/register"
+            ],
+            "args": [
+                "${workspaceFolder}/node_modules/mocha/bin/_mocha",
+                "--timeout", "999999",
+                "--colors",
+                "${workspaceFolder}/test/newUserRegistrationTest.ts" // Point to the TypeScript test file
+            ],
+            "cwd": "${workspaceRoot}",
+            "env": {
+                "NODE_ENV": "test",
+                "PERFHUB_ENABLED": "false"
+            },
+            "sourceMaps": true,
+            "skipFiles": ["<node_internals>/**"],
+            "console": "internalConsole",
+            "internalConsoleOptions": "openOnSessionStart"
+        },
+        
         // Test Case: Regression --------------->>>>
         {
             "type": "node",

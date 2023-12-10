@@ -3,8 +3,11 @@ import 'chromedriver';
 import { validLoginTest } from './validLoginTest';
 import { invalidLoginTest } from './invalidLoginTest';
 import { noLoginInputTest } from './noLoginInputTest';
+import { sessionPersistenceTest } from './sessionPersistenceTest';
+import { multiTabLogoutTest } from './multiTabLogoutTest';
+import { newUserRegistrationTest } from './newUserRegistrationTest';
 
-describe('Test Case: Regression Test', async function () {
+describe('Regression Test', async function () {
     let driver: WebDriver;
 
     before(async function () {
@@ -20,4 +23,10 @@ describe('Test Case: Regression Test', async function () {
     invalidLoginTest();
 
     noLoginInputTest();
+
+    sessionPersistenceTest();
+
+    multiTabLogoutTest();
+
+    newUserRegistrationTest();
 });

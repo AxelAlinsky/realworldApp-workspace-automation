@@ -1,16 +1,16 @@
 import { expect, assert} from 'chai';
-import { WebDriver, Builder, By } from 'selenium-webdriver';
+import { WebDriver, Builder, By, error } from 'selenium-webdriver';
 import * as chrome from 'selenium-webdriver/chrome';
 import 'chromedriver';
 import { Main } from '../src/components/main';
 import { App  } from '../src/app';
-import { pageUrl, UserCredentials } from '../src/components/data/data';
+import { ErrorMsg, pageUrl, UserCredentials } from '../src/components/data/data';
 
 let compMain = new Main();
 let objApp: App;
 
 export function invalidLoginTest() {
-    describe('Test Case: Validate Invalid Login Attempt', async function () {
+    describe('Test Case: Invalid Login Attempt', async function () {
         let driver: WebDriver;
     
         before(async function () {
@@ -41,8 +41,10 @@ export function invalidLoginTest() {
         it('Step 4: Click on the login button', async function () {
             await objApp.click(By.css(compMain.loginButton));
 
+            await objApp.verifyErrorMsg(ErrorMsg.invalidCredential, By.css(compMain.errorMsg));
+
             await objApp.verifyUrl(pageUrl.realworld); 
         });
     });    
 }
-// invalidLoginTest();
+invalidLoginTest();
